@@ -1,0 +1,11 @@
+appdirs
+args
+clint
+MongoNorm
+packaging
+pkginfo
+pyparsing
+requests
+requests-toolbelt
+six
+twine
