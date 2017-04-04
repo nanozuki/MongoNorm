@@ -6,12 +6,6 @@ property_methods = [
     'full_name',
     'name',
     'database',
-    'find',
-    'parallel_scan',
-    'find_one',
-    'find_one_and_delete',
-    'find_one_and_replace',
-    'find_one_and_update',
     'oid',
     'raw',
 ]
@@ -44,6 +38,12 @@ class_methods = [
     'distinct',
     'map_reduce',
     'inline_map_reduce',
+    'find',
+    'parallel_scan',
+    'find_one',
+    'find_one_and_delete',
+    'find_one_and_replace',
+    'find_one_and_update',
     '_boxing'
 ]
 
@@ -180,11 +180,11 @@ def inline_map_reduce(cls, map, reduce, full_response=False, **kwargs):
 
 
 def find(cls, *args, **kwargs):
-    return Cursor(cls.__collection__.find(*args, **kwargs))
+    return Cursor(cls, cls.__collection__.find(*args, **kwargs))
 
 
 def parallel_scan(cls, num_cursors, **kwargs):
-    return Cursor.mk_list(cls.__collection__.parallel_scan(num_cursors, **kwargs))
+    return Cursor.mk_list(cls, cls.__collection__.parallel_scan(num_cursors, **kwargs))
 
 
 def find_one(cls, filter=None, *args, **kwargs):

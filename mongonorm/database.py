@@ -14,10 +14,10 @@ class DataBase(object):
         def decorator(cls):
             cls.__collection__ = collec
             for method in collection.property_methods:
-                cls.__dict__[method] = property(getattr(collection, method))
+                setattr(cls, method, property(getattr(collection, method)))
             for method in collection.class_methods:
-                cls.__dict__[method] = classmethod(getattr(collection, method))
+                setattr(cls, method, classmethod(getattr(collection, method)))
             for method in collection.normal_methods:
-                cls.__dict__[method] = getattr(collection, method)
+                setattr(cls, method, getattr(collection, method))
             return cls
         return decorator

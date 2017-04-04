@@ -163,15 +163,15 @@ def make_collection_py():
         fun_defs.append(define)
     for fun in cursor_fun:
         name, define = make_fun(fun, 'cursor')
-        property_methods.append("    '{0}',".format(name))
+        class_methods.append("    '{0}',".format(name))
         fun_defs.append(define)
     for fun in cursors_fun:
         name, define = make_fun(fun, 'cursors')
-        property_methods.append("    '{0}',".format(name))
+        class_methods.append("    '{0}',".format(name))
         fun_defs.append(define)
     for fun in doc_fun:
         name, define = make_fun(fun, 'doc')
-        property_methods.append("    '{0}',".format(name))
+        class_methods.append("    '{0}',".format(name))
         fun_defs.append(define)
 
     collection_py_content = collection_py.format(
@@ -196,9 +196,9 @@ def make_fun(line, return_type='', property_=False):
         call = 'cls' if property_ is False else 'self'
         return fun_name, "def {0}({1}):\n    return {3}.__collection__.{0}({2})".format(fun_name, def_params, call_params, call)
     elif return_type == 'cursor':
-        return fun_name, "def {0}({1}):\n    return Cursor(cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
+        return fun_name, "def {0}({1}):\n    return Cursor(cls, cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
     elif return_type == 'cursors':
-        return fun_name, "def {0}({1}):\n    return Cursor.mk_list(cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
+        return fun_name, "def {0}({1}):\n    return Cursor.mk_list(cls, cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
     elif return_type == 'doc':
         return fun_name, "def {0}({1}):\n    return cls._boxing(cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
 

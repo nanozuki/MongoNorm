@@ -1,5 +1,5 @@
 from pymongo import MongoClient as OrigMongoClient
-from pymongo.database import DataBase as OrigDataBase
+from pymongo.database import Database as OrigDataBase
 
 from mongonorm.database import DataBase
 
@@ -8,7 +8,7 @@ class MongoClient(object):
     def __init__(self, host=None, port=None, tz_aware=None,
                  connect=None, **kwargs):
         self.mongo_client = OrigMongoClient(host, port, dict, tz_aware,
-                                            connect, kwargs)
+                                            connect, **kwargs)
 
     def __repr__(self):
         return self.mongo_client.__repr__()
