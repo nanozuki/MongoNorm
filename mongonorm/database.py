@@ -1,4 +1,4 @@
-from mongonorm import collection
+from mongonorm import document
 
 
 class DataBase(object):
@@ -8,16 +8,18 @@ class DataBase(object):
     def __getattr__(self, name):
         return getattr(self.orig_database, name)
 
-    def register(self, name):
-        collec = self.orig_database[name]
+    def register(self, collection):
+        collection = self.orig_database[collection]
 
         def decorator(cls):
-            cls.__collection__ = collec
-            for method in collection.property_methods:
-                setattr(cls, method, property(getattr(collection, method)))
-            for method in collection.class_methods:
-                setattr(cls, method, classmethod(getattr(collection, method)))
-            for method in collection.normal_methods:
-                setattr(cls, method, getattr(collection, method))
+            cls.__collection__ = collection
+            if 'default_values' not in cls.__dict__:
+                setattr(cls, 'default_values', {})
+            for method in document.property_methods:
+                setattr(cls, method, property(getattr(document, method)))
+            for method in document.class_methods:
+                setattr(cls, method, classmethod(getattr(document, method)))
+            for method in document.normal_methods:
+                setattr(cls, method, getattr(document, method))
             return cls
         return decorator

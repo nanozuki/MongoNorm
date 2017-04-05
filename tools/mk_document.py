@@ -149,7 +149,7 @@ def __repr__(self):
 """
 
 
-def make_collection_py():
+def make_document_py():
     fun_defs = []
     property_methods = []
     class_methods = []
@@ -178,7 +178,7 @@ def make_collection_py():
         '\n'.join(property_methods),
         '\n'.join(class_methods),
         '\n\n\n'.join(fun_defs))
-    with open('collection.py', 'w') as f:
+    with open('mongonorm/document.py', 'w') as f:
         f.write(collection_py_content)
 
 
@@ -212,4 +212,4 @@ def single_param(p):
 
 
 if __name__ == '__main__':
-    make_collection_py()
+    make_document_py()
