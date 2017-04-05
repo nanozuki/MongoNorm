@@ -19,7 +19,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-with open('README.md') as f:
+with open('README.rst') as f:
     long_desc = f.read()
 
 setup(
