@@ -8,8 +8,8 @@ class DataBase(object):
     def __getattr__(self, name):
         return getattr(self.orig_database, name)
 
-    def register(self, collection):
-        collection = self.orig_database[collection]
+    def collection(self, name):
+        collection = self.orig_database[name]
 
         def decorator(cls):
             cls.__collection__ = collection
