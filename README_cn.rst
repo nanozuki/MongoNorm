@@ -69,3 +69,13 @@ MongoNorm改变了collection和document的使用方式，首先你需要定义�
         print(article['title'])  # use as dict
         print(article.html_content())  # use method of model class
 
+3. 一些有用的工具
+
+   * 更改单个field的快捷方式::
+
+        article['title'] = 'MongoNorm'
+        # it will auto update to mongodb
+
+    * shortcut for update self::
+
+        article.update({'$set': {'title', 'MongoNorm', 'author': 'Crows'}})

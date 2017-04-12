@@ -78,8 +78,10 @@ for your definition of the class, such as::
 3. some useful methods:
 
     * shortcut for set a single field as a dict::
-        article['title'] = 'MongoNorm'
 
-        it will auto update ro mongodb
+        article['title'] = 'MongoNorm'
+        # it will auto update to mongodb
+
     * shortcut for update self::
+
         article.update({'$set': {'title', 'MongoNorm', 'author': 'Crows'}})
