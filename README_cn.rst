@@ -51,6 +51,13 @@ MongoNorm改变了collection和document的使用方式，首先你需要定义�
         def html_content(self):
             parse_html(self['content'])
 
+*!提醒: 关于 __init__()*:
+
+    不要在``__init__()``里面定义属性，如果你需要，可以定义property。
+
+    你必须在 ``__init__()`` 中或者之后调用 ``insert(document)``, 才能将
+    document添加到Mongodb
+
 所有pymongo关于collection的操作，都变成了这个Model的classmethod，
 如果在pymongo里面返回的是document，则将被monogonorm封装为你定义的类，比如::
 
