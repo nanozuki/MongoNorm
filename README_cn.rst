@@ -71,11 +71,11 @@ MongoNorm改变了collection和document的使用方式，首先你需要定义�
 
 3. 一些有用的工具
 
-   * 更改单个field的快捷方式::
+* 更改单个field的快捷方式::
 
-        article['title'] = 'MongoNorm'
-        # it will auto update to mongodb
+    article['title'] = 'MongoNorm'
+    # it will auto update to mongodb
 
-    * shortcut for update self::
+* shortcut for update self::
 
-        article.update({'$set': {'title', 'MongoNorm', 'author': 'Crows'}})
+    article.update({'$set': {'title', 'MongoNorm', 'author': 'Crows'}})
