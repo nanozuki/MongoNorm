@@ -14,10 +14,10 @@ is same as pymongo's, please refer to pymongo's documentation first.
 """
 from setuptools import setup
 
-VERSION = '0.1.2'
+VERSION = '0.2.0'
 
 CLASSIFIERS = [
-    'Development Status :: 2 - Pre-Alpha',
+    'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: BSD License',
     'Operating System :: OS Independent',
