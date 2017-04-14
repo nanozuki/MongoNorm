@@ -5,7 +5,7 @@ mc = MongoClient()
 db = mc.test
 
 
-@db.register(collection='test')
+@db.collection('test')
 class TheModel(object):
     def __init__(self, n):
         self.insert({"test_id": n})

@@ -218,6 +218,9 @@ def _check_bound(self):
 
 
 def _boxing(cls, doc):
+    if doc is None:
+        return None
+
     obj = cls.__new__(cls)
     obj._doc = doc
     obj._id = doc['_id']
@@ -265,5 +268,5 @@ def reload(self):
 
 
 def __repr__(self):
-    return "<Collection.{0} id {1}>".format(
+    return "<Document.{0} id {1}>".format(
         self.__class__.__name__, self._id)

@@ -1,15 +1,17 @@
+from pymongo.database import Database as OrigDatabase
+
 from mongonorm import document
 
 
-class DataBase(object):
-    def __init__(self, orig_database):
-        self.orig_database = orig_database
-
+class Database(OrigDatabase):
     def __getattr__(self, name):
-        return getattr(self.orig_database, name)
+        raise AttributeError
+
+    def __getitem__(self, item):
+        raise KeyError
 
     def collection(self, name):
-        collection = self.orig_database[name]
+        collection = super(Database, self).__getitem__(name)
 
         def decorator(cls):
             cls.__collection__ = collection
