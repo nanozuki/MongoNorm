@@ -51,7 +51,7 @@ MongoNorm改变了collection和document的使用方式，首先你需要定义�
         def html_content(self):
             parse_html(self['content'])
 
-*!提醒: 关于 __init__()*:
+*!提醒: 关于 __init__()*
 
     不要在``__init__()``里面定义属性，如果你需要，可以定义property。
 
@@ -68,6 +68,14 @@ MongoNorm改变了collection和document的使用方式，首先你需要定义�
     for article in cur:
         print(article['title'])  # use as dict
         print(article.html_content())  # use method of model class
+
+*!提醒:*
+
+当你在Document对象之外修改了内容，你应该在使用之前调用一次``reload``::
+
+    Article.update_many({'tags': []})
+    article.reload()
+    print(article['tags'])
 
 3. 一些有用的工具
 

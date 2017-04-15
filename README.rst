@@ -67,13 +67,22 @@ have become the Model of the classmethod,
 If the pymongo's return is the document, will be monogonorm package
 for your definition of the class, such as::
     
-    Article.find_one ({'title': 'Hello'}) # return an object of Article or None
-    cur = Article.find ({})
+    Article.find_one({'title': 'Hello'}) # return an object of Article or None
+    cur = Article.find({})
     # Return a cursor, you can get Article object from this cusor
 
     for article in cur:
         print(article['title'])  # use as dict
         print(article.html_content())  # use method of model class
+
+*!Warning:*
+
+When you modified a document out of your document object, you should
+reload it before use it::
+    
+    Article.update_many({'tags': []})
+    article.reload()
+    print(article['tags'])
 
 3. some useful methods:
 
@@ -85,3 +94,7 @@ for your definition of the class, such as::
 * shortcut for update self::
 
     article.update({'$set': {'title', 'MongoNorm', 'author': 'Crows'}})
+
+* the same as replace::
+
+    article.replace({'$set': {'title', 'MongoNorm', 'author': 'Crows'}})

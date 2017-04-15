@@ -14,8 +14,7 @@ is same as pymongo's, please refer to pymongo's documentation first.
 """
 from setuptools import setup
 
-VERSION = '0.2.2'
-
+VERSION = '0.3.0'
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
@@ -30,7 +29,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     'Topic :: Database',
-    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 
 with open('README.rst') as f:
@@ -51,5 +50,7 @@ setup(
     install_requires=[
         'PyMongo(>=3.0)'
     ],
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
     classifiers=CLASSIFIERS
 )

@@ -53,9 +53,11 @@ normal_methods = [
     '__repr__',
     '__getitem__',
     '__setitem__',
+    'copy',
     'insert',
     'update',
-    'reload',
+    'replace',
+    'reload'
 ]
 
 
@@ -251,6 +253,12 @@ def __setitem__(self, key, value):
     self._doc = None
 
 
+def copy(self):
+    rtn = self.raw
+    self._doc = None
+    return rtn
+
+
 def insert(self, doc):
     result = self.__collection__.insert_one(doc)
     self._id = result.inserted_id
@@ -259,6 +267,11 @@ def insert(self, doc):
 
 def update(self, update_obj):
     self.__collection__.update_one({'_id': self._id}, update_obj)
+    self._doc = None
+
+
+def replace(self, replace_obj):
+    self.__collection__.replace_one({'_id': self._id}, replace_obj)
     self._doc = None
 
 

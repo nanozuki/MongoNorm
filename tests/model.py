@@ -9,3 +9,6 @@ db = mc.test
 class TheModel(object):
     def __init__(self, n):
         self.insert({"test_id": n})
+
+    def get_id(self):
+        return self['test_id']
