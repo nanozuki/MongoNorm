@@ -84,6 +84,6 @@ MongoNorm改变了collection和document的使用方式，首先你需要定义�
     article['title'] = 'MongoNorm'
     # it will auto update to mongodb
 
-* shortcut for update self::
+* 更新对象本身的快捷方式::
 
     article.update({'$set': {'title', 'MongoNorm', 'author': 'Crows'}})
