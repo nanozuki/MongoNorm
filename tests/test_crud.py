@@ -24,7 +24,7 @@ def test_create_n_read_multi_doc():
 def test_update():
     def ensure_test_id(test_id):
         assert tm.get_id() == test_id
-        orig_doc = TheModel.__collection__.find_one({'_id': oid})
+        orig_doc = TheModel.o_collection().find_one({'_id': oid})
         assert orig_doc['test_id'] == test_id
 
     TheModel.delete_many({})

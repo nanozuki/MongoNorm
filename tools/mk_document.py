@@ -64,6 +64,7 @@ property_methods = [
 
 class_methods = [
 {1}
+    'o_collection',
     '_boxing'
 ]
 
@@ -73,9 +74,11 @@ normal_methods = [
     '__repr__',
     '__getitem__',
     '__setitem__',
+    'copy',
     'insert',
     'update',
-    'reload',
+    'replace',
+    'reload'
 ]
 
 
@@ -83,7 +86,7 @@ normal_methods = [
 
 
 def _find_doc(self, filter_obj):
-    return self.__collection__.find_one(filter_obj)
+    return self.o_collection().find_one(filter_obj)
 
 
 def _check_bound(self):
@@ -97,6 +100,9 @@ def _check_bound(self):
 
 
 def _boxing(cls, doc):
+    if doc is None:
+        return None
+
     obj = cls.__new__(cls)
     obj._doc = doc
     obj._id = doc['_id']
@@ -113,6 +119,12 @@ def raw(self):
     return self._doc
 
 
+def o_collection(cls):
+    if cls._o_collection is None:
+        cls._o_collection = cls._o_collection_factory.make()
+    return cls._o_collection
+
+
 def __getitem__(self, item):
     if item in self.raw:
         return self.raw[item]
@@ -123,18 +135,29 @@ def __getitem__(self, item):
 
 
 def __setitem__(self, key, value):
-    self.__collection__.update_one({{'_id': self.oid}}, {{'$set': {{key: value}}}})
+    self.o_collection().update_one({{'_id': self.oid}}, {{'$set': {{key: value}}}})
     self._doc = None
 
 
+def copy(self):
+    rtn = self.raw
+    self._doc = None
+    return rtn
+
+
 def insert(self, doc):
-    result = self.__collection__.insert_one(doc)
+    result = self.o_collection().insert_one(doc)
     self._id = result.inserted_id
-    self._doc = self.__collection__.find_one({{'_id': self._id}})
+    self._doc = self.o_collection().find_one({{'_id': self._id}})
 
 
 def update(self, update_obj):
-    self.__collection__.update_one({{'_id': self._id}}, update_obj)
+    self.o_collection().update_one({{'_id': self._id}}, update_obj)
+    self._doc = None
+
+
+def replace(self, replace_obj):
+    self.o_collection().replace_one({{'_id': self._id}}, replace_obj)
     self._doc = None
 
 
@@ -144,7 +167,7 @@ def reload(self):
 
 
 def __repr__(self):
-    return "<Collection.{{0}} id {{1}}>".format(
+    return "<Document.{{0}} id {{1}}>".format(
         self.__class__.__name__, self._id)
 """
 
@@ -194,13 +217,13 @@ def make_fun(line, return_type='', property_=False):
 
     if return_type == '':
         call = 'cls' if property_ is False else 'self'
-        return fun_name, "def {0}({1}):\n    return {3}.__collection__.{0}({2})".format(fun_name, def_params, call_params, call)
+        return fun_name, "def {0}({1}):\n    return {3}.o_collection().{0}({2})".format(fun_name, def_params, call_params, call)
     elif return_type == 'cursor':
-        return fun_name, "def {0}({1}):\n    return Cursor(cls, cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
+        return fun_name, "def {0}({1}):\n    return Cursor(cls, cls.o_collection().{0}({2}))".format(fun_name, def_params, call_params)
     elif return_type == 'cursors':
-        return fun_name, "def {0}({1}):\n    return Cursor.mk_list(cls, cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
+        return fun_name, "def {0}({1}):\n    return Cursor.mk_list(cls, cls.o_collection().{0}({2}))".format(fun_name, def_params, call_params)
     elif return_type == 'doc':
-        return fun_name, "def {0}({1}):\n    return cls._boxing(cls.__collection__.{0}({2}))".format(fun_name, def_params, call_params)
+        return fun_name, "def {0}({1}):\n    return cls._boxing(cls.o_collection().{0}({2}))".format(fun_name, def_params, call_params)
 
 
 def single_param(p):
