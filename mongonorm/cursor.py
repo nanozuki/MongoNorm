@@ -4,13 +4,13 @@ from pymongo.cursor import Cursor as OrigCursor
 
 class Cursor(object):
     @classmethod
-    def mk_list(cls, collection, orig_cursor_list):
-        return [cls(collection, orig_cursor)
-                for orig_cursor in orig_cursor_list]
+    def mk_list(cls, collection, o_cursor_list):
+        return [cls(collection, o_cursor)
+                for o_cursor in o_cursor_list]
 
-    def __init__(self, collection, orig_cursor):
+    def __init__(self, collection, o_cursor):
         self.collection = collection
-        self.orig_cursor = orig_cursor
+        self.o_cursor = o_cursor
 
     def decorate_method(self, f):
         @wraps(f)
@@ -22,7 +22,7 @@ class Cursor(object):
         return decorated_function
 
     def __getattr__(self, name):
-        rtn = getattr(self.orig_cursor, name)
+        rtn = getattr(self.o_cursor, name)
         if isinstance(rtn, dict):
             return self.collection._boxing(rtn)
         elif callable(rtn):
@@ -30,7 +30,7 @@ class Cursor(object):
         return rtn
 
     def __getitem__(self, index):
-        rtn = self.orig_cursor.__getitem__(index)
+        rtn = self.o_cursor.__getitem__(index)
         if isinstance(rtn, dict):
             return self.collection._boxing(rtn)
         elif isinstance(rtn, OrigCursor):
@@ -43,7 +43,7 @@ class Cursor(object):
         return self
 
     def next(self):
-        rtn = self.orig_cursor.next()
+        rtn = self.o_cursor.next()
         if isinstance(rtn, dict):
             return self.collection._boxing(rtn)
         return rtn
