@@ -14,7 +14,7 @@ is same as pymongo's, please refer to pymongo's documentation first.
 """
 from setuptools import setup
 
-VERSION = '0.3.0'
+VERSION = '0.4.0'
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
